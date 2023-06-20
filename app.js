@@ -16,6 +16,10 @@ mongoose.connect(databaseURL);
 db.on("error", (error) => console.error(error));
 db.once("open", () => console.log(`Successfully connected to the database`));
 
+app.get("/", (request, response) => {
+    response.send("<h2>Might make this a full stack app later. On va voir</h2>");
+});
+
 app.get("/sites", async (request, response) => {
     try {
         const sites = await Site.find();
