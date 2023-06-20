@@ -1,25 +1,27 @@
 {
-  "name": "su-2025-rest-api",
-  "version": "1.0.0",
-  "description": "REST API for SU 2025 Project",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "coming-soon"
-  },
-  "keywords": [
-    "rest-api",
-    "express",
-    "mongodb",
-    "node"
-  ],
-  "author": "Gilbert Rabut Tsurwa",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.18.2",
-    "mongoose": "^7.3.0"
-  }
+    "name": "su-2025-rest-api",
+    "version": "1.0.0",
+    "description": "REST API for SU 2025 Project",
+    "main": "app.js",
+    "scripts": {
+        "dev": "NODE_ENV=development nodemon app.js",
+        "start": "NODE_ENV=production nodemon app.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "coming-soon"
+    },
+    "keywords": [
+        "rest-api",
+        "express",
+        "mongodb",
+        "node"
+    ],
+    "author": "Gilbert Rabut Tsurwa",
+    "license": "ISC",
+    "dependencies": {
+        "dotenv": "^16.3.1",
+        "express": "^4.18.2",
+        "mongoose": "^7.3.0"
+    }
 }

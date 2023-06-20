@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const mongoose = require("mongoose");
 
@@ -7,9 +9,13 @@ const Theme = require("./models/themes");
 
 const app = express();
 const PORT = 4000;
+const environment = process.env.NODE_ENV;
+const DATABASE_URL = environment === "development" ? process.env.DEV_DATABASE_URL : process.env.PROD_DATABASE_URL;
 
-const databaseURL = "mongodb://127.0.0.1:27017/su2025";
+const databaseURL = DATABASE_URL;
 const db = mongoose.connection;
+
+console.log(process.env.NODE_ENV);
 
 app.use(express.json());
 mongoose.connect(databaseURL);
