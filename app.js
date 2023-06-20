@@ -1,7 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
+
 const Site = require("./models/sites");
 const Plugin = require("./models/plugins");
+const Theme = require("./models/themes");
 
 const app = express();
 const PORT = 4000;
@@ -43,6 +45,23 @@ app.get("/plugins", async (request, response) => {
 });
 
 app.get("/plugins/:name", async (request, response) => {
+    try {
+        const plugin = await Plugin.findOne({ name: request.params.name });
+        if (!plugin) throw new Error("Plugin could not be found");
+        response.json(plugin);
+    } catch (error) {
+        response.json({ message: error.message });
+    } finally {
+        console.log("Data retrieval completed");
+    }
+});
+
+app.get("/themes", async (request, response) => {
+    const themes = await Theme.find();
+    response.json(themes);
+});
+
+app.get("/themes/:name", async (request, response) => {
     try {
         const plugin = await Plugin.findOne({ name: request.params.name });
         if (!plugin) throw new Error("Plugin could not be found");
