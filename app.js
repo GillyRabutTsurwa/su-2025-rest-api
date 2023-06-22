@@ -66,6 +66,7 @@ app.get("/plugins/:name", async (request, response) => {
     }
 });
 
+// Requests for Theme Data
 app.get("/themes", async (request, response) => {
     const themes = await Theme.find();
     response.json(themes);
@@ -81,6 +82,18 @@ app.get("/themes/:name", async (request, response) => {
     } finally {
         console.log("Data retrieval completed");
     }
+});
+
+app.post("/themes", async (request, response) => {
+    const theme = new Theme({
+        name: request.body.name,
+        codebaseName: request.body.codebaseName,
+        sitesUsingTheme: request.body.sitesUsingTheme,
+    });
+
+    const newTheme = await Theme.create(theme);
+    console.log(theme);
+    response.json(newTheme);
 });
 
 app.listen(PORT, () => {
