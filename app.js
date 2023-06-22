@@ -49,6 +49,7 @@ app.get("/sites/:name", async (request, response) => {
     }
 });
 
+// Requests for Plugin Data
 app.get("/plugins", async (request, response) => {
     const plugins = await Plugin.find();
     response.json(plugins);
@@ -64,6 +65,21 @@ app.get("/plugins/:name", async (request, response) => {
     } finally {
         console.log("Data retrieval completed");
     }
+});
+
+app.post("/plugins", async (request, response) => {
+    const plugin = new Plugin({
+        name: request.body.name,
+        // codebase property is automatically generated from name
+        creator: request.body.creator,
+        currentVersion: request.body.currentVersion,
+        latestVersion: request.body.latestVersion,
+        isNetworkActive: request.body.isNetworkActive,
+        sitesActivated: request.body.sitesActivated,
+    });
+
+    const newPlugin = await Plugin.create(plugin);
+    response.json(newPlugin);
 });
 
 // Requests for Theme Data
