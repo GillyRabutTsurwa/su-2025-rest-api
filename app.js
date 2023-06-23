@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 
 const Site = require("./models/sites");
 const Plugin = require("./models/plugins");
@@ -18,12 +19,30 @@ const db = mongoose.connection;
 console.log(process.env.NODE_ENV);
 
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.set("view engine", "ejs"); //NOTE: allows us to use the EJS engine to make our templates
+app.use(express.static(__dirname + "/public"));
+
 mongoose.connect(databaseURL);
 db.on("error", (error) => console.error(error));
 db.once("open", () => console.log(`Successfully connected to the database`));
 
 app.get("/", (request, response) => {
-    response.send("<h2>Might make this a full stack app later. On va voir</h2>");
+    response.redirect("/register");
+});
+
+app.get("/register", (request, response) => {
+    response.render("register");
+});
+
+app.get("/login", (request, response) => {
+    response.render("login");
+});
+
+app.post("/", (request, response) => {
+    console.log(request.body.username);
+    console.log(request.body.password);
+    response.send(`${request.body.username}`);
 });
 
 app.get("/sites", async (request, response) => {

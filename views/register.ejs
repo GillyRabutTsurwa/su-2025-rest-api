@@ -1,0 +1,13 @@
+<%- include ("./partials/header") %>
+
+    <div class="login-register-container">
+        <div class="centre">
+            <img src="/img/su-logo.png" alt="SU Logo">
+            <form action="/register" method="POST">
+                <input type="text" name="username" id="username" placeholder="Username" required>
+                <input type="password" name="password" id="password" placeholder="Password" required>
+                <input type="submit" value="Register">
+            </form>
+            <h4>Have an account? <a href="/login">Login</a></h4>
+        </div>
+    </div>

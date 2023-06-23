@@ -1,0 +1,90 @@
+*,
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100vh;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    height: 100%;
+    background-color: pink;
+    font-size: 1.6rem;
+}
+
+.login-register-container {
+    position: relative;
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    /* IMPORTANT: path is based on: app.use(express.static(__dirname + "/public")); */
+    /* the path below is appended after the one express is configuring via the code comment above */
+    background-image: url(/img/login-register-canvas.jpeg);
+}
+
+/* NOTE: je vais utliser ceci après avoir trouvé une autre image */
+/* .login-register-container::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "";
+    height: 100%;
+    width: 100%;
+    background-color: rgba(100, 4, 255, 0.4);
+} */
+
+.centre {
+    display: grid;
+    place-items: center;
+}
+
+.centre img {
+    display: block;
+    margin: 0 auto;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* width: 100%; */
+}
+
+input {
+    -webkit-appearance: none;
+    -ms-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.325rem;
+    border: solid 2px rgba(144, 144, 144, 0.25);
+    color: inherit;
+    outline: 0;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    margin: 2rem 0;
+    width: 40rem;
+
+    color: #000000;
+    font-family: "Source Sans Pro", Helvetica, sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.0375em;
+    line-height: 2;
+}
+
+input[type="submit"] {
+    width: -webkit-min-content;
+    width: -moz-min-content;
+    width: min-content;
+    padding: 1.25rem 3rem;
+    cursor: pointer;
+}
