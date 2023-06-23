@@ -3,10 +3,14 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const session = require("express-session");
+const passport = require("passport");
+const localStrategy = require("passport-local").Strategy;
 
 const Site = require("./models/sites");
 const Plugin = require("./models/plugins");
 const Theme = require("./models/themes");
+const User = require("./models/users");
 
 const app = express();
 const PORT = 4000;
@@ -15,13 +19,23 @@ const DATABASE_URL = environment === "development" ? process.env.DEV_DATABASE_UR
 
 const databaseURL = DATABASE_URL;
 const db = mongoose.connection;
-
-console.log(process.env.NODE_ENV);
+const secretSession = session({
+    secret: "susecret",
+    resave: false,
+    saveUninitialized: false,
+});
 
 app.use(express.json());
+app.use(secretSession);
 app.use(bodyParser.urlencoded({ extended: true }));
-app.set("view engine", "ejs"); //NOTE: allows us to use the EJS engine to make our templates
+app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new localStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 mongoose.connect(databaseURL);
 db.on("error", (error) => console.error(error));
