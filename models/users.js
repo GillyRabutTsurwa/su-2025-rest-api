@@ -9,7 +9,7 @@ const UserSchema = new mongoose.Schema(
         },
         password: {
             type: String,
-            required: true,
+            required: false, //NOTE: passport-local-mongoose takes care of this. do not define it when making a new user
         },
     },
     {
