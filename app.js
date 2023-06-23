@@ -76,6 +76,18 @@ app.get("/login", (request, response) => {
     response.render("login");
 });
 
+app.post(
+    "/login",
+    passport.authenticate("local", {
+        successFlash: true,
+        failureFlash: true,
+        successMessage: true,
+        failureMessage: true,
+        successRedirect: "/plugins",
+        failureRedirect: "/register",
+    })
+);
+
 app.get("/sites", async (request, response) => {
     try {
         const sites = await Site.find();
@@ -100,10 +112,12 @@ app.get("/sites/:name", async (request, response) => {
 });
 
 // Requests for Plugin Data
-app.get("/plugins", async (request, response) => {
+app.get("/plugins", isLoggedIn, async (request, response) => {
+    console.log(request.user);
     const plugins = await Plugin.find({});
     response.render("plugins", {
         plugins: plugins,
+        user: request.user, //NOTE: we have this thanks to our middleware function isLoggedIn
     });
 });
 
@@ -168,6 +182,15 @@ app.post("/themes", async (request, response) => {
     console.log(theme);
     response.json(newTheme);
 });
+
+function isLoggedIn(req, res, next) {
+    // NOTE: great post that explains source of isAuthenticated() https://stackoverflow.com/questions/65387843/express-request-isauthenticated
+    if (req.isAuthenticated()) {
+        console.log(req.user);
+        return next();
+    }
+    res.redirect("/login");
+}
 
 app.listen(PORT, () => {
     console.log(`Server Running on Port ${PORT}`);
