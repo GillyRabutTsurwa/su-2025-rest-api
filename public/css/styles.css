@@ -18,7 +18,7 @@ html {
 
 body {
     height: 100%;
-    background-color: pink;
+    background-color: rgb(110, 6, 23);
     font-size: 1.6rem;
 }
 
@@ -60,7 +60,8 @@ form {
     /* width: 100%; */
 }
 
-input {
+input[type="text"],
+input[type="password"] {
     -webkit-appearance: none;
     -ms-appearance: none;
     -moz-appearance: none;
@@ -81,10 +82,20 @@ input {
     line-height: 2;
 }
 
-input[type="submit"] {
+input[type="submit"],
+button {
     width: -webkit-min-content;
     width: -moz-min-content;
     width: min-content;
     padding: 1.25rem 3rem;
     cursor: pointer;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+}
+
+button {
+    align-self: center;
 }

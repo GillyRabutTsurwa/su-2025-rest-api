@@ -34,6 +34,9 @@ const pluginSchema = new mongoose.Schema(
             required: function () {
                 return this.isNetworkActive ? false : true;
             },
+            default: function () {
+                return ["test"];
+            },
         },
     },
     {

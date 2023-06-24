@@ -1,0 +1,29 @@
+<%- include ("./partials/header") %>
+
+<div class="login-register-container">
+    <div class="centre">
+        <img src="/img/su-logo.png" alt="SU Logo">
+        <div class="input-container">
+            <input type="text" name="name" id="name" placeholder="Name" required>
+            <input type="text" name="creator" id="creator" placeholder="Created By" required>
+            <input type="text" name="currentVersion" id="currentVersion" placeholder="Current Version" required>
+
+            <div class="radio">
+                <h4>Is Using Current Version</h4>
+                <input type="radio" id="currentTrue" name="version" value="yes">
+                <label for="currentTrue">Yes</label>
+                <input type="radio" id="currentFalse" name="version" value="no">
+                <label for="currentFalse">No</label>
+            </div>
+
+            <div class="radio">
+                <h4>Is Network Active</h4>
+                <input type="radio" id="networkTrue" name="network" value="yes">
+                <label for="networkTrue">Yes</label>
+                <input type="radio" id="networkFalse" name="network" value="no">
+                <label for="networkFalse">No</label>
+            </div>
+            <button id="btnSubmit">Add Plugin</button>
+        </div>
+    </div>
+</div>

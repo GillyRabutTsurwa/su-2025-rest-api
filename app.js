@@ -181,6 +181,10 @@ app.get("/logout", (request, response) => {
     });
 });
 
+app.get("/create-plugin", isLoggedIn, (request, response) => {
+    response.render("create-plugin");
+});
+
 function isLoggedIn(req, res, next) {
     // NOTE: great post that explains source of isAuthenticated() https://stackoverflow.com/questions/65387843/express-request-isauthenticated
     if (req.isAuthenticated()) {
