@@ -128,18 +128,18 @@ app.get("/plugins/:name", async (request, response) => {
 });
 
 app.post("/plugins", async (request, response) => {
-    const plugin = new Plugin({
-        name: request.body.name,
-        // codebase property is automatically generated from name
-        creator: request.body.creator,
-        currentVersion: request.body.currentVersion,
-        latestVersion: request.body.latestVersion,
-        isNetworkActive: request.body.isNetworkActive,
-        sitesActivated: request.body.sitesActivated,
-    });
+    console.log(request.body);
+    // const plugin = new Plugin({
+    //     name: request.body.name,
+    //     creator: request.body.creator,
+    //     currentVersion: request.body.currentVersion,
+    //     latestVersion: request.body.latestVersion,
+    //     isNetworkActive: request.body.isNetworkActive,
+    //     sitesActivated: request.body.sitesActivated,
+    // });
 
-    const newPlugin = await Plugin.create(plugin);
-    response.json(newPlugin);
+    // const newPlugin = await Plugin.create(plugin);
+    // response.json(newPlugin);
 });
 
 // Requests for Theme Data

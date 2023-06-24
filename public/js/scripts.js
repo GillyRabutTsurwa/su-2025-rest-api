@@ -25,7 +25,7 @@ const radioValuetoBoolean = () => {
     };
 };
 
-DOM.btnSubmit.addEventListener("click", () => {
+DOM.btnSubmit.addEventListener("click", async () => {
     const pluginData = {
         name: DOM.inputName.value,
         creator: DOM.inputCreator.value,
@@ -33,5 +33,15 @@ DOM.btnSubmit.addEventListener("click", () => {
         latestVersion: radioValuetoBoolean().version,
         isNetworkActive: radioValuetoBoolean().network,
     };
-    console.log(pluginData);
+    // console.log(pluginData);
+
+    const response = await fetch("/plugins", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(pluginData),
+    });
+    const data = await response.json();
+    return data;
 });
