@@ -42,7 +42,7 @@ db.on("error", (error) => console.error(error));
 db.once("open", () => console.log(`Successfully connected to the database`));
 
 app.get("/", (request, response) => {
-    response.redirect("/register");
+    response.redirect("/login");
 });
 
 app.get("/register", (request, response) => {
@@ -52,13 +52,6 @@ app.get("/register", (request, response) => {
 app.post("/register", async (request, response) => {
     const newUser = new User({
         username: request.body.username,
-        /**
-         * IMPORTANT
-         * we do not specify the password field, passport-local-mongoose takes care of this. takes the password and hashes it
-         * if we don't do this and define the password here, it will show the password as is, in the database, which is bad for security
-         * therefore, defining password as required in your model will not work when making a new user, because we are not defining it here
-         * either set required to false or omit a required property altogether
-         */
     });
 
     User.register(newUser, request.body.password, (err, user) => {
@@ -79,10 +72,6 @@ app.get("/login", (request, response) => {
 app.post(
     "/login",
     passport.authenticate("local", {
-        successFlash: true,
-        failureFlash: true,
-        successMessage: true,
-        failureMessage: true,
         successRedirect: "/plugins",
         failureRedirect: "/register",
     })
@@ -181,6 +170,15 @@ app.post("/themes", async (request, response) => {
     const newTheme = await Theme.create(theme);
     console.log(theme);
     response.json(newTheme);
+});
+
+app.get("/logout", (request, response) => {
+    request.logout((err) => {
+        if (err) {
+            console.error(err);
+        }
+        response.redirect("/");
+    });
 });
 
 function isLoggedIn(req, res, next) {
