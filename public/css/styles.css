@@ -18,8 +18,8 @@ html {
 
 body {
     height: 100%;
-    background-color: rgb(110, 6, 23);
     font-size: 1.6rem;
+    font-family: "Jost", sans-serif;
 }
 
 .login-register-container {
@@ -76,8 +76,9 @@ input[type="password"] {
     width: 40rem;
 
     color: #000000;
-    font-family: "Source Sans Pro", Helvetica, sans-serif;
-    font-weight: 300;
+    font-family: inherit;
+    font-size: 1.75rem;
+    /* font-weight: 300; */
     letter-spacing: 0.0375em;
     line-height: 2;
 }
@@ -98,4 +99,43 @@ button {
 
 button {
     align-self: center;
+}
+
+/* clean up */
+.plugins-container {
+    width: 80%;
+    margin: 3rem auto;
+}
+.joke {
+    margin: 1rem 0;
+    padding: 2rem 0;
+    border-width: 3px;
+    border-style: solid;
+    -o-border-image: linear-gradient(to right, lightgrey, lightgrey) 1;
+    border-image: linear-gradient(to right, lightgrey, lightgrey) 1;
+    cursor: pointer;
+    text-align: center;
+    font-size: 4rem;
+}
+
+a:link,
+a:visited {
+    text-decoration: none;
+    color: #34495e;
+    font-weight: normal;
+}
+
+a:hover,
+a:active {
+    color: #34495e;
+    font-weight: bold;
+}
+
+.joke:hover {
+    /* border: 1.5px solid #42b883; */
+    /* NOTE: leaving the comment out code cause i really like those colours */
+    /* -o-border-image: linear-gradient(to right, darkblue, darkorchid) 1;
+    border-image: linear-gradient(to right, darkblue, darkorchid) 1; */
+    -o-border-image: linear-gradient(to right, #002d62, #98002e) 1;
+    border-image: linear-gradient(to right, #002d62, #98002e) 1;
 }

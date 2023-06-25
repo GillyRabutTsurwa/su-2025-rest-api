@@ -101,12 +101,12 @@ app.get("/sites/:name", async (request, response) => {
 });
 
 // Requests for Plugin Data
-app.get("/plugins", isLoggedIn, async (request, response) => {
+app.get("/plugins", async (request, response) => {
     console.log(request.user);
     const plugins = await Plugin.find({});
     response.render("plugins", {
         plugins: plugins,
-        user: request.user, //NOTE: we have this thanks to our middleware function isLoggedIn
+        user: request.isAuthenticated() ? request.user : null, //NOTE: if there's an authenticated user pass user data, else don't pass anything
     });
 });
 
@@ -117,7 +117,7 @@ app.get("/api/plugins", async (request, response) => {
 
 app.get("/plugins/:name", async (request, response) => {
     try {
-        const plugin = await Plugin.findOne({ name: request.params.name });
+        const plugin = await Plugin.findOne({ codebaseName: request.params.name });
         if (!plugin) throw new Error("Plugin could not be found");
         response.json(plugin);
     } catch (error) {
@@ -129,17 +129,21 @@ app.get("/plugins/:name", async (request, response) => {
 
 app.post("/plugins", async (request, response) => {
     console.log(request.body);
-    // const plugin = new Plugin({
-    //     name: request.body.name,
-    //     creator: request.body.creator,
-    //     currentVersion: request.body.currentVersion,
-    //     latestVersion: request.body.latestVersion,
-    //     isNetworkActive: request.body.isNetworkActive,
-    //     sitesActivated: request.body.sitesActivated,
-    // });
+    const plugin = new Plugin({
+        name: request.body.name,
+        creator: request.body.creator,
+        currentVersion: request.body.currentVersion,
+        latestVersion: request.body.latestVersion,
+        isNetworkActive: request.body.isNetworkActive,
+        sitesActivated: request.body.sitesActivated,
+    });
 
-    // const newPlugin = await Plugin.create(plugin);
-    // response.json(newPlugin);
+    try {
+        const newPlugin = await Plugin.create(plugin);
+        console.log(newPlugin);
+    } catch (error) {
+        //
+    }
 });
 
 // Requests for Theme Data
