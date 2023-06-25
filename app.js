@@ -65,15 +65,19 @@ app.post("/register", async (request, response) => {
     });
 });
 
-app.get("/login", (request, response) => {
-    response.render("login");
+app.get("/login", ensureAuthenticated, (request, response) => {
+    console.log(request.session.messages); // NEW: is an array
+    response.render("login", {
+        error: request.session.messages,
+    });
 });
 
 app.post(
     "/login",
     passport.authenticate("local", {
         successRedirect: "/plugins",
-        failureRedirect: "/register",
+        failureRedirect: "/login",
+        failureMessage: "Login failed. Verify credentials and retry", // NOTE: this message is available in our login route above app.get("/login")
     })
 );
 
@@ -196,6 +200,14 @@ function isLoggedIn(req, res, next) {
         return next();
     }
     res.redirect("/login");
+}
+
+// middleware to not show the login page and redirect to plugin if user is already logged in
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return res.redirect("/plugins");
+    }
+    return next();
 }
 
 app.listen(PORT, () => {
