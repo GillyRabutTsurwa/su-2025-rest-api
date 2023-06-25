@@ -156,6 +156,10 @@ a:active {
 
 .plugin h3 {
     font-size: 7rem;
+    color: transparent;
+    background-image: linear-gradient(to right, #002d62, #98002e);
+    -webkit-background-clip: text;
+    background-clip: text;
 }
 
 .plugin p {
