@@ -12,6 +12,8 @@ const Plugin = require("./models/plugins");
 const Theme = require("./models/themes");
 const User = require("./models/users");
 
+const registerRouter = require("./router/register");
+
 const app = express();
 const PORT = 4000;
 const environment = process.env.NODE_ENV;
@@ -26,6 +28,7 @@ const secretSession = session({
 });
 
 app.use(express.json());
+app.use("/register", registerRouter);
 app.use(secretSession);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
@@ -45,25 +48,25 @@ app.get("/", (request, response) => {
     response.redirect("/login");
 });
 
-app.get("/register", (request, response) => {
-    response.render("register");
-});
+// app.get("/register", (request, response) => {
+//     response.render("register");
+// });
 
-app.post("/register", async (request, response) => {
-    const newUser = new User({
-        username: request.body.username,
-    });
+// app.post("/register", async (request, response) => {
+//     const newUser = new User({
+//         username: request.body.username,
+//     });
 
-    User.register(newUser, request.body.password, (err, user) => {
-        if (err) {
-            console.error(err);
-            return response.redirect("/register");
-        }
-        passport.authenticate("local")(request, response, () => {
-            response.redirect("/plugins");
-        });
-    });
-});
+//     User.register(newUser, request.body.password, (err, user) => {
+//         if (err) {
+//             console.error(err);
+//             return response.redirect("/register");
+//         }
+//         passport.authenticate("local")(request, response, () => {
+//             response.redirect("/plugins");
+//         });
+//     });
+// });
 
 app.get("/login", ensureAuthenticated, (request, response) => {
     console.log(request.session.messages); // NEW: is an array
