@@ -13,6 +13,7 @@ const Theme = require("./models/themes");
 const User = require("./models/users");
 
 const registerRouter = require("./router/register");
+const loginRouter = require("./router/login");
 
 const app = express();
 const PORT = 4000;
@@ -40,6 +41,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use("/register", registerRouter); //IMPORTANT: include this after passport initialisation logic
+app.use("/login", loginRouter);
 
 mongoose.connect(databaseURL);
 db.on("error", (error) => console.error(error));
@@ -49,41 +51,21 @@ app.get("/", (request, response) => {
     response.redirect("/login");
 });
 
-// app.get("/register", (request, response) => {
-//     response.render("register");
-// });
-
-// app.post("/register", async (request, response) => {
-//     const newUser = new User({
-//         username: request.body.username,
-//     });
-
-//     User.register(newUser, request.body.password, (err, user) => {
-//         if (err) {
-//             console.error(err);
-//             return response.redirect("/register");
-//         }
-//         passport.authenticate("local")(request, response, () => {
-//             response.redirect("/plugins");
-//         });
+// app.get("/login", ensureAuthenticated, (request, response) => {
+//     console.log(request.session.messages); // NEW: is an array
+//     response.render("login", {
+//         error: request.session.messages,
 //     });
 // });
 
-app.get("/login", ensureAuthenticated, (request, response) => {
-    console.log(request.session.messages); // NEW: is an array
-    response.render("login", {
-        error: request.session.messages,
-    });
-});
-
-app.post(
-    "/login",
-    passport.authenticate("local", {
-        successRedirect: "/plugins",
-        failureRedirect: "/login",
-        failureMessage: "Login failed. Verify credentials and retry", // NOTE: this message is available in our login route above app.get("/login")
-    })
-);
+// app.post(
+//     "/login",
+//     passport.authenticate("local", {
+//         successRedirect: "/plugins",
+//         failureRedirect: "/login",
+//         failureMessage: "Login failed. Verify credentials and retry", // NOTE: this message is available in our login route above app.get("/login")
+//     })
+// );
 
 app.get("/sites", async (request, response) => {
     try {
@@ -207,12 +189,12 @@ function isLoggedIn(req, res, next) {
 }
 
 // middleware to not show the login page and redirect to plugin if user is already logged in
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return res.redirect("/plugins");
-    }
-    return next();
-}
+// function ensureAuthenticated(req, res, next) {
+//     if (req.isAuthenticated()) {
+//         return res.redirect("/plugins");
+//     }
+//     return next();
+// }
 
 app.listen(PORT, () => {
     console.log(`Server Running on Port ${PORT}`);
