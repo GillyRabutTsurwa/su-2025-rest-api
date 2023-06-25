@@ -28,7 +28,6 @@ const secretSession = session({
 });
 
 app.use(express.json());
-app.use("/register", registerRouter);
 app.use(secretSession);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
@@ -39,6 +38,8 @@ app.use(passport.session());
 passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+app.use("/register", registerRouter); //IMPORTANT: include this after passport initialisation logic
 
 mongoose.connect(databaseURL);
 db.on("error", (error) => console.error(error));
