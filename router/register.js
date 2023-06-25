@@ -1,16 +1,9 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const passport = require("passport");
-const localStrategy = require("passport-local").Strategy;
 
 const router = express.Router();
 
 const User = require("../models/users");
-
-router.use(bodyParser.urlencoded({ extended: true }));
-passport.use(new localStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
 
 router.get("/", (request, response) => {
     response.render("register");
