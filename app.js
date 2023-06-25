@@ -14,6 +14,8 @@ const User = require("./models/users");
 
 const registerRouter = require("./router/register");
 const loginRouter = require("./router/login");
+const pluginRouter = require("./router/plugins");
+const pluginAPIRouter = require("./router/api/plugins");
 
 const app = express();
 const PORT = 4000;
@@ -42,6 +44,8 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use("/register", registerRouter); //IMPORTANT: include this after passport initialisation logic
 app.use("/login", loginRouter);
+app.use("/plugins", pluginRouter);
+app.use("/api/plugins", pluginAPIRouter);
 
 mongoose.connect(databaseURL);
 db.on("error", (error) => console.error(error));
@@ -50,22 +54,6 @@ db.once("open", () => console.log(`Successfully connected to the database`));
 app.get("/", (request, response) => {
     response.redirect("/login");
 });
-
-// app.get("/login", ensureAuthenticated, (request, response) => {
-//     console.log(request.session.messages); // NEW: is an array
-//     response.render("login", {
-//         error: request.session.messages,
-//     });
-// });
-
-// app.post(
-//     "/login",
-//     passport.authenticate("local", {
-//         successRedirect: "/plugins",
-//         failureRedirect: "/login",
-//         failureMessage: "Login failed. Verify credentials and retry", // NOTE: this message is available in our login route above app.get("/login")
-//     })
-// );
 
 app.get("/sites", async (request, response) => {
     try {
@@ -91,50 +79,50 @@ app.get("/sites/:name", async (request, response) => {
 });
 
 // Requests for Plugin Data
-app.get("/plugins", async (request, response) => {
-    console.log(request.user);
-    const plugins = await Plugin.find({});
-    response.render("plugins", {
-        plugins: plugins,
-        user: request.isAuthenticated() ? request.user : null, //NOTE: if there's an authenticated user pass user data, else don't pass anything
-    });
-});
+// app.get("/plugins", async (request, response) => {
+//     console.log(request.user);
+//     const plugins = await Plugin.find({});
+//     response.render("plugins", {
+//         plugins: plugins,
+//         user: request.isAuthenticated() ? request.user : null, //NOTE: if there's an authenticated user pass user data, else don't pass anything
+//     });
+// });
 
-app.get("/api/plugins", async (request, response) => {
-    const plugins = await Plugin.find();
-    response.json(plugins);
-});
+// app.get("/api/plugins", async (request, response) => {
+//     const plugins = await Plugin.find();
+//     response.json(plugins);
+// });
 
-app.get("/plugins/:name", async (request, response) => {
-    try {
-        const plugin = await Plugin.findOne({ codebaseName: request.params.name });
-        if (!plugin) throw new Error("Plugin could not be found");
-        response.json(plugin);
-    } catch (error) {
-        response.json({ message: error.message });
-    } finally {
-        console.log("Data retrieval completed");
-    }
-});
+// app.get("/plugins/:name", async (request, response) => {
+//     try {
+//         const plugin = await Plugin.findOne({ codebaseName: request.params.name });
+//         if (!plugin) throw new Error("Plugin could not be found");
+//         response.json(plugin);
+//     } catch (error) {
+//         response.json({ message: error.message });
+//     } finally {
+//         console.log("Data retrieval completed");
+//     }
+// });
 
-app.post("/plugins", async (request, response) => {
-    console.log(request.body);
-    const plugin = new Plugin({
-        name: request.body.name,
-        creator: request.body.creator,
-        currentVersion: request.body.currentVersion,
-        latestVersion: request.body.latestVersion,
-        isNetworkActive: request.body.isNetworkActive,
-        sitesActivated: request.body.sitesActivated,
-    });
+// app.post("/plugins", async (request, response) => {
+//     console.log(request.body);
+//     const plugin = new Plugin({
+//         name: request.body.name,
+//         creator: request.body.creator,
+//         currentVersion: request.body.currentVersion,
+//         latestVersion: request.body.latestVersion,
+//         isNetworkActive: request.body.isNetworkActive,
+//         sitesActivated: request.body.sitesActivated,
+//     });
 
-    try {
-        const newPlugin = await Plugin.create(plugin);
-        console.log(newPlugin);
-    } catch (error) {
-        //
-    }
-});
+//     try {
+//         const newPlugin = await Plugin.create(plugin);
+//         console.log(newPlugin);
+//     } catch (error) {
+//         //
+//     }
+// });
 
 // Requests for Theme Data
 app.get("/themes", async (request, response) => {

@@ -90,6 +90,9 @@ button {
     width: min-content;
     padding: 1.25rem 3rem;
     cursor: pointer;
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+    font-size: inherit;
 }
 
 .input-container {
@@ -138,4 +141,26 @@ a:active {
     border-image: linear-gradient(to right, darkblue, darkorchid) 1; */
     -o-border-image: linear-gradient(to right, #002d62, #98002e) 1;
     border-image: linear-gradient(to right, #002d62, #98002e) 1;
+}
+
+.plugin-container {
+    display: grid;
+    place-items: center;
+    height: 100vh;
+}
+
+.plugin {
+    /* will add styles later if needed */
+    text-align: center;
+}
+
+.plugin h3 {
+    font-size: 7rem;
+}
+
+.plugin p {
+    font-size: 4rem;
+}
+.plugin p span {
+    font-weight: 300;
 }
