@@ -35,13 +35,22 @@ DOM.btnSubmit.addEventListener("click", async () => {
     };
     // console.log(pluginData);
 
-    const response = await fetch("/plugins", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(pluginData),
-    });
-    const data = await response.json();
-    return data;
+    try {
+        const response = await fetch("/plugins", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(pluginData),
+        });
+
+        if (response.ok) {
+            console.log("Data sent to server");
+        } else {
+            const errorData = await response.json();
+            throw errorData;
+        }
+    } catch (e) {
+        console.error(e.error);
+    }
 });

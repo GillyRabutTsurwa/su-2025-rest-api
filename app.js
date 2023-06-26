@@ -16,6 +16,7 @@ const registerRouter = require("./router/register");
 const loginRouter = require("./router/login");
 const pluginRouter = require("./router/plugins");
 const pluginAPIRouter = require("./router/api/plugins");
+const themeRouter = require("./router/themes");
 
 const app = express();
 const PORT = 4000;
@@ -46,6 +47,7 @@ app.use("/register", registerRouter); //IMPORTANT: include this after passport i
 app.use("/login", loginRouter);
 app.use("/plugins", pluginRouter);
 app.use("/api/plugins", pluginAPIRouter);
+app.use("/themes", themeRouter);
 
 mongoose.connect(databaseURL);
 db.on("error", (error) => console.error(error));
@@ -78,25 +80,16 @@ app.get("/sites/:name", async (request, response) => {
     }
 });
 
-// Requests for Plugin Data
-// app.get("/plugins", async (request, response) => {
-//     console.log(request.user);
-//     const plugins = await Plugin.find({});
-//     response.render("plugins", {
-//         plugins: plugins,
-//         user: request.isAuthenticated() ? request.user : null, //NOTE: if there's an authenticated user pass user data, else don't pass anything
-//     });
+// Requests for Theme Data
+// app.get("/themes", async (request, response) => {
+//     const themes = await Theme.find();
+//     response.json(themes);
 // });
 
-// app.get("/api/plugins", async (request, response) => {
-//     const plugins = await Plugin.find();
-//     response.json(plugins);
-// });
-
-// app.get("/plugins/:name", async (request, response) => {
+// app.get("/themes/:name", async (request, response) => {
 //     try {
 //         const plugin = await Plugin.findOne({ codebaseName: request.params.name });
-//         if (!plugin) throw new Error("Plugin could not be found");
+//         if (!plugin) throw new Error("Theme could not be found");
 //         response.json(plugin);
 //     } catch (error) {
 //         response.json({ message: error.message });
@@ -105,54 +98,17 @@ app.get("/sites/:name", async (request, response) => {
 //     }
 // });
 
-// app.post("/plugins", async (request, response) => {
-//     console.log(request.body);
-//     const plugin = new Plugin({
+// app.post("/themes", async (request, response) => {
+//     const theme = new Theme({
 //         name: request.body.name,
-//         creator: request.body.creator,
-//         currentVersion: request.body.currentVersion,
-//         latestVersion: request.body.latestVersion,
-//         isNetworkActive: request.body.isNetworkActive,
-//         sitesActivated: request.body.sitesActivated,
+//         codebaseName: request.body.codebaseName,
+//         sitesUsingTheme: request.body.sitesUsingTheme,
 //     });
 
-//     try {
-//         const newPlugin = await Plugin.create(plugin);
-//         console.log(newPlugin);
-//     } catch (error) {
-//         //
-//     }
+//     const newTheme = await Theme.create(theme);
+//     console.log(theme);
+//     response.json(newTheme);
 // });
-
-// Requests for Theme Data
-app.get("/themes", async (request, response) => {
-    const themes = await Theme.find();
-    response.json(themes);
-});
-
-app.get("/themes/:name", async (request, response) => {
-    try {
-        const plugin = await Plugin.findOne({ name: request.params.name });
-        if (!plugin) throw new Error("Plugin could not be found");
-        response.json(plugin);
-    } catch (error) {
-        response.json({ message: error.message });
-    } finally {
-        console.log("Data retrieval completed");
-    }
-});
-
-app.post("/themes", async (request, response) => {
-    const theme = new Theme({
-        name: request.body.name,
-        codebaseName: request.body.codebaseName,
-        sitesUsingTheme: request.body.sitesUsingTheme,
-    });
-
-    const newTheme = await Theme.create(theme);
-    console.log(theme);
-    response.json(newTheme);
-});
 
 app.get("/logout", (request, response) => {
     request.logout((err) => {
