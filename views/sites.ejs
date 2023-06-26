@@ -6,12 +6,10 @@
         <a href="/create-site">Add Sites</a>
     <% } %>
 </div>
-    <div class="sitess-container">
+    <div class="sites-container">
         <% sites.forEach((currentSites)=> { %>
-            <a href="/sitess/<%= currentSites.codebaseName %>">
-                <p class="joke">
-                    <%= currentSites.name %>
-                </p>
+            <a href="/sites/<%= currentSites.name %>" class="joke">
+                <%= currentSites.name %>
             </a>
         <% }) %>
     </div>

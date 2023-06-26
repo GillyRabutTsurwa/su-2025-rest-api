@@ -1,11 +1,11 @@
 const DOM = (() => {
     const elements = {
-        inputName: document.querySelector("#name"),
-        inputCreator: document.querySelector("#creator"),
-        inputVersion: document.querySelector("#currentVersion"),
-        btnSubmit: document.querySelector("#btnSubmit"),
-        radioVersion: document.getElementsByName("version"),
-        radioNetwork: document.getElementsByName("network"),
+        inputPluginName: document.querySelector("#pluginName"),
+        inputPluginCreator: document.querySelector("#pluginCreator"),
+        inputPluginVersion: document.querySelector("#pluginCurrentVersion"),
+        btnSubmitPlugin: document.querySelector("#btnSubmitPlugin"),
+        radioPluginVersion: document.getElementsByName("pluginVersion"),
+        radioPluginNetwork: document.getElementsByName("pluginNetwork"),
     };
     return elements;
 })();
@@ -17,19 +17,19 @@ const radioValuetoBoolean = () => {
      * radio buttons are associated together via the name attribute
      * so, above in the DOM iife, radioVersion is a collection of radio buttons that share the name version
      */
-    const versionValue = Array.from(DOM.radioVersion).find((currentValue) => currentValue.checked).value;
-    const networkValue = Array.from(DOM.radioNetwork).find((currentValue) => currentValue.checked).value;
+    const versionValue = Array.from(DOM.radioPluginVersion).find((currentValue) => currentValue.checked).value;
+    const networkValue = Array.from(DOM.radioPluginNetwork).find((currentValue) => currentValue.checked).value;
     return {
         version: versionValue === "yes" ? true : false,
         network: networkValue === "yes" ? true : false,
     };
 };
 
-DOM.btnSubmit.addEventListener("click", async () => {
+DOM.btnSubmitPlugin.addEventListener("click", async () => {
     const pluginData = {
-        name: DOM.inputName.value,
-        creator: DOM.inputCreator.value,
-        currentVersion: DOM.inputVersion.value,
+        name: DOM.inputPluginName.value,
+        creator: DOM.inputPluginCreator.value,
+        currentVersion: DOM.inputPluginVersion.value,
         latestVersion: radioValuetoBoolean().version,
         isNetworkActive: radioValuetoBoolean().network,
     };
@@ -52,5 +52,7 @@ DOM.btnSubmit.addEventListener("click", async () => {
         }
     } catch (e) {
         console.error(e.error);
+    } finally {
+        DOM.inputPluginName.value = "";
     }
 });

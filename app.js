@@ -58,7 +58,7 @@ db.on("error", (error) => console.error(error));
 db.once("open", () => console.log(`Successfully connected to the database`));
 
 app.get("/", (request, response) => {
-    response.redirect("/login");
+    response.render("index");
 });
 
 app.get("/logout", (request, response) => {
@@ -72,6 +72,14 @@ app.get("/logout", (request, response) => {
 
 app.get("/create-plugin", isLoggedIn, (request, response) => {
     response.render("create-plugin");
+});
+
+app.get("/create-theme", isLoggedIn, (request, response) => {
+    response.render("create-theme");
+});
+
+app.get("/create-site", isLoggedIn, (request, response) => {
+    response.render("create-site");
 });
 
 function isLoggedIn(req, res, next) {
