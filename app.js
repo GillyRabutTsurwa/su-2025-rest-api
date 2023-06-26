@@ -7,9 +7,11 @@ const session = require("express-session");
 const passport = require("passport");
 const localStrategy = require("passport-local").Strategy;
 
+//NOTE: no longer using these in this file. will delete in next commit
 const Site = require("./models/sites");
 const Plugin = require("./models/plugins");
 const Theme = require("./models/themes");
+
 const User = require("./models/users");
 
 const registerRouter = require("./router/register");
@@ -17,6 +19,7 @@ const loginRouter = require("./router/login");
 const pluginRouter = require("./router/plugins");
 const pluginAPIRouter = require("./router/api/plugins");
 const themeRouter = require("./router/themes");
+const siteRouter = require("./router/sites");
 
 const app = express();
 const PORT = 4000;
@@ -48,6 +51,7 @@ app.use("/login", loginRouter);
 app.use("/plugins", pluginRouter);
 app.use("/api/plugins", pluginAPIRouter);
 app.use("/themes", themeRouter);
+app.use("/sites", siteRouter);
 
 mongoose.connect(databaseURL);
 db.on("error", (error) => console.error(error));
@@ -56,29 +60,6 @@ db.once("open", () => console.log(`Successfully connected to the database`));
 app.get("/", (request, response) => {
     response.redirect("/login");
 });
-
-// app.get("/sites", async (request, response) => {
-//     try {
-//         const sites = await Site.find();
-//         response.json(sites);
-//     } catch (error) {
-//         response.json({ message: error.message });
-//     } finally {
-//         console.log("Data retrieval completed");
-//     }
-// });
-
-// app.get("/sites/:name", async (request, response) => {
-//     try {
-//         const site = await Site.findOne({ name: request.params.name });
-//         if (!site) throw new Error("Site could not be found"); // if name parametre doesn't return site data
-//         response.json(site);
-//     } catch (error) {
-//         response.json({ message: error.message });
-//     } finally {
-//         console.log("Data retrieval completed");
-//     }
-// });
 
 app.get("/logout", (request, response) => {
     request.logout((err) => {

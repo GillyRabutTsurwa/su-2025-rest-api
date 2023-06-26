@@ -5,7 +5,10 @@ const Theme = require("../models/themes");
 
 router.get("/", async (request, response) => {
     const themes = await Theme.find();
-    response.json(themes);
+    response.render("themes", {
+        themes: themes,
+        user: request.isAuthenticated() ? request.user : null,
+    });
 });
 
 router.get("/:name", async (request, response) => {

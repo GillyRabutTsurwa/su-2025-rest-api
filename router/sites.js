@@ -6,7 +6,10 @@ const Site = require("../models/sites");
 router.get("/", async (request, response) => {
     try {
         const sites = await Site.find();
-        response.json(sites);
+        response.render("sites", {
+            sites: sites,
+            user: request.isAuthenticated() ? request.user : null,
+        });
     } catch (error) {
         response.json({ message: error.message });
     } finally {
@@ -35,8 +38,11 @@ router.post("/", async (request, response) => {
 
     try {
         const newSite = await Site.create(site);
-        console.log(newSite);
+        // console.log(newSite);
+        response.json(newSite);
     } catch (error) {
         //
     }
 });
+
+module.exports = router;
