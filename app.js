@@ -99,6 +99,6 @@ function isLoggedIn(req, res, next) {
 //     return next();
 // }
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server Running on Port ${PORT}`);
 });
