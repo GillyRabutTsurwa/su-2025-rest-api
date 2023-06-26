@@ -57,40 +57,10 @@ app.get("/", (request, response) => {
     response.redirect("/login");
 });
 
-app.get("/sites", async (request, response) => {
-    try {
-        const sites = await Site.find();
-        response.json(sites);
-    } catch (error) {
-        response.json({ message: error.message });
-    } finally {
-        console.log("Data retrieval completed");
-    }
-});
-
-app.get("/sites/:name", async (request, response) => {
-    try {
-        const site = await Site.findOne({ name: request.params.name });
-        if (!site) throw new Error("Site could not be found"); // if name parametre doesn't return site data
-        response.json(site);
-    } catch (error) {
-        response.json({ message: error.message });
-    } finally {
-        console.log("Data retrieval completed");
-    }
-});
-
-// Requests for Theme Data
-// app.get("/themes", async (request, response) => {
-//     const themes = await Theme.find();
-//     response.json(themes);
-// });
-
-// app.get("/themes/:name", async (request, response) => {
+// app.get("/sites", async (request, response) => {
 //     try {
-//         const plugin = await Plugin.findOne({ codebaseName: request.params.name });
-//         if (!plugin) throw new Error("Theme could not be found");
-//         response.json(plugin);
+//         const sites = await Site.find();
+//         response.json(sites);
 //     } catch (error) {
 //         response.json({ message: error.message });
 //     } finally {
@@ -98,16 +68,16 @@ app.get("/sites/:name", async (request, response) => {
 //     }
 // });
 
-// app.post("/themes", async (request, response) => {
-//     const theme = new Theme({
-//         name: request.body.name,
-//         codebaseName: request.body.codebaseName,
-//         sitesUsingTheme: request.body.sitesUsingTheme,
-//     });
-
-//     const newTheme = await Theme.create(theme);
-//     console.log(theme);
-//     response.json(newTheme);
+// app.get("/sites/:name", async (request, response) => {
+//     try {
+//         const site = await Site.findOne({ name: request.params.name });
+//         if (!site) throw new Error("Site could not be found"); // if name parametre doesn't return site data
+//         response.json(site);
+//     } catch (error) {
+//         response.json({ message: error.message });
+//     } finally {
+//         console.log("Data retrieval completed");
+//     }
 // });
 
 app.get("/logout", (request, response) => {

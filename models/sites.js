@@ -12,7 +12,7 @@ const siteSchema = new mongoose.Schema(
         activePlugins: {
             type: Array,
             required: true,
-            default: [],
+            default: ["test"],
         },
     },
     {
