@@ -1,5 +1,9 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const router = express.Router();
+
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json());
 
 const Plugin = require("../models/plugins");
 
@@ -12,9 +16,9 @@ router.get("/", async (request, response) => {
     });
 });
 
-router.get("/:name", async (request, response) => {
+router.get("/:id", async (request, response) => {
     try {
-        const plugin = await Plugin.findOne({ codebaseName: request.params.name });
+        const plugin = await Plugin.findOne({ _id: request.params.id }).exec();
         if (!plugin) throw new Error("Plugin could not be found");
         // response.json(plugin); // will do this in the /api/plugin/:name route
         response.render("plugin", {
@@ -28,21 +32,22 @@ router.get("/:name", async (request, response) => {
 });
 
 router.post("/", async (request, response) => {
-    console.log(request.body);
     const plugin = new Plugin({
         name: request.body.name,
         creator: request.body.creator,
         currentVersion: request.body.currentVersion,
-        latestVersion: request.body.latestVersion,
-        isNetworkActive: request.body.isNetworkActive,
+        latestVersion: request.body.pluginVersion,
+        isNetworkActive: request.body.pluginNetwork,
         sitesActivated: request.body.sitesActivated,
     });
 
+    console.log(plugin);
+
     try {
-        const newPlugin = await Plugin.create(plugin);
-        console.log(newPlugin);
+        await Plugin.create(plugin);
+        response.redirect(`/plugins/${plugin._id}`);
     } catch (error) {
-        //
+        console.error(error);
     }
 });
 

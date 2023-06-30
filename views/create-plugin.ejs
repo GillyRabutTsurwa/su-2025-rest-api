@@ -3,7 +3,7 @@
 <div class="login-register-container">
     <div class="centre">
         <img src="/img/su-logo.png" alt="SU Logo">
-        <div class="input-container">
+        <form action="/plugins" method="POST" class="input-container">
             <input type="text" name="name" id="pluginName" placeholder="Plugin Name" required>
             <input type="text" name="creator" id="pluginCreator" placeholder="Created By" required>
             <input type="text" name="currentVersion" id="pluginCurrentVersion" placeholder="Current Version" required>
@@ -24,6 +24,6 @@
                 <label for="networkFalse">No</label>
             </div>
             <button id="btnSubmitPlugin">Add Plugin</button>
-        </div>
+        </form>
     </div>
 </div>

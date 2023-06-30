@@ -8,7 +8,7 @@
 </div>
     <div class="plugins-container">
         <% plugins.forEach((currentPlugin)=> { %>
-            <a href="/plugins/<%= currentPlugin.codebaseName %>" class="joke">
+            <a href="/plugins/<%= currentPlugin._id %>" class="joke">
                     <%= currentPlugin.name %>
             </a>
         <% }) %>

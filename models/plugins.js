@@ -23,11 +23,13 @@ const pluginSchema = new mongoose.Schema(
         },
         latestVersion: {
             type: Boolean,
-            required: true,
+            // required: true,
+            required: false,
         },
         isNetworkActive: {
             type: Boolean,
-            required: true,
+            // required: true,
+            required: false,
         },
         sitesActivated: {
             type: Array,
