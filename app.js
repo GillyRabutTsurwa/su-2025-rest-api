@@ -100,6 +100,19 @@ function isLoggedIn(req, res, next) {
 //     return next();
 // }
 
-app.listen(PORT, "0.0.0.0", () => {
+app.listen(PORT, () => {
     console.log(`Server Running on Port ${PORT}`);
 });
+
+/*
+ <% files.forEach((currentFile) => { %>
+     <li><%= currentFile.name %></li>
+     <% if (currentFile.type === "dir") { %>
+        <li>
+            <%= currentFilename.name %>i
+            
+        </li>
+
+     <% } %>
+    <% }) %>
+ */

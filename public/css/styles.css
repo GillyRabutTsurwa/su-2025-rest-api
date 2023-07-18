@@ -265,3 +265,62 @@ button {
     background-color: #eee;
     color: rgb(0, 67, 152);
 }
+
+/* tree  */
+ul.tree {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul.tree li {
+    margin: 0;
+    padding-left: 1em;
+    position: relative;
+}
+
+ul.tree li::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -0.5em;
+    width: 0.5em;
+    height: 1em;
+    border-top: 1px solid #ccc;
+}
+
+ul.tree li::after {
+    content: "";
+    position: absolute;
+    top: 0.5em;
+    left: -0.5em;
+    width: 1em;
+    border-left: 1px solid #ccc;
+    height: calc(100% - 0.5em);
+}
+
+ul.tree li:last-child::after {
+    border-left: none;
+    height: calc(50% - 0.5em);
+}
+
+ul.tree li.file::before {
+    border-color: #999;
+}
+
+ul.tree li.file::after {
+    border-color: #999;
+}
+
+ul.tree li.dir::before {
+    border-color: #999;
+    border-left: 1px dashed #999;
+    height: calc(100% + 1em);
+    top: -0.5em;
+}
+
+ul.tree li.dir::after {
+    border-color: #999;
+    top: 0.5em;
+    height: calc(100% - 1em);
+}
