@@ -1,9 +1,11 @@
 <%- include ("./partials/header") %>
 
 <div class="plugin-container">
-    <div class="plugin">
-        <h3><%= theme.name %></h3>
-        <p>Created By: <span><%= theme.codebaseName %></span></p>
+    <div class="plugin fulltest">
+        <div>
+            <h3><%= theme.name %></h3>
+            <p>Created By: <span><%= theme.codebaseName %></span></p>
+        </div>
     </div>
     <ul class="tree">
         <% files.forEach(function(asset) { %>
@@ -37,5 +39,5 @@
             </li>
           <% } %>
         <% }) %>
-      </ul>
+    </ul>
 </div>

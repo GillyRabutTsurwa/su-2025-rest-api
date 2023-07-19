@@ -266,6 +266,18 @@ button {
     color: rgb(0, 67, 152);
 }
 
+.fulltest {
+    height: 100vh;
+}
+
+.fulltest div {
+    display: flex;
+    flex-direction: column;
+    height: inherit;
+    justify-content: center;
+    align-items: center;
+}
+
 /* tree  */
 ul.tree {
     list-style-type: none;

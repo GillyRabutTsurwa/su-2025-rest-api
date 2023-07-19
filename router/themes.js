@@ -8,37 +8,13 @@ const Theme = require("../models/themes");
 
 //NEW
 const octokit = new Octokit({
-    auth: "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",
+    auth: process.env.GITHUB_OCTOKIT_KEY,
 });
-
-// async function fetchContent() {
-//     const content = await octokit.request("GET /repos/{owner}/{repo}/contents/{path}", {
-//         owner: "ShenandoahU",
-//         repo: "ssmt",
-//         path: "wp-content/themes/su-ssmt",
-//     });
-
-//     content.data.forEach(async (currentAsset) => {
-//         if (currentAsset.type === "dir") {
-//             const x = await octokit.request("GET /repos/{owner}/{repo}/contents/{path}", {
-//                 owner: "ShenandoahU",
-//                 repo: "ssmt",
-//                 path: `${currentAsset.path}`,
-//             });
-
-//             // const xd = x.data;
-//             // console.log({ ...currentAsset, xd });
-//         }
-//     });
-
-//     return x4;
-// }
 
 async function fetchContent(path) {
     const result = await octokit.request("GET /repos/{owner}/{repo}/contents/{path}", {
         owner: "ShenandoahU",
-        // repo: "ssmt",
-        repo: "www.su.edu",
+        repo: "ssmt",
         path: path,
     });
 
@@ -72,12 +48,14 @@ router.get("/:name", async (request, response) => {
     try {
         const theme = await Theme.findOne({ codebaseName: request.params.name });
         if (!theme) throw new Error("Theme could not be found");
-        const initialPath = "wp-content/themes/su-performs";
+        const initialPath = "wp-content/themes/su-ssmt";
         const files = await fetchContent(initialPath);
-        // console.log(files);
+
+        console.log(theme, files);
+
         response.render("theme", {
             theme: theme,
-            files: await fetchContent(initialPath),
+            files: files,
         });
     } catch (error) {
         response.json({ message: error.message });
@@ -94,6 +72,7 @@ router.post("/", async (request, response) => {
     });
 
     const newTheme = await Theme.create(theme);
+    console.log("New Theme Added");
     console.log(theme);
     response.json(newTheme);
 });
