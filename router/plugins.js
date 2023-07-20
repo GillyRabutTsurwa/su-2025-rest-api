@@ -16,9 +16,9 @@ router.get("/", async (request, response) => {
     });
 });
 
-router.get("/:id", async (request, response) => {
+router.get("/:name", async (request, response) => {
     try {
-        const plugin = await Plugin.findOne({ _id: request.params.id }).exec();
+        const plugin = await Plugin.findOne({ codebaseName: request.params.name }).exec();
         if (!plugin) throw new Error("Plugin could not be found");
         // response.json(plugin); // will do this in the /api/plugin/:name route
         response.render("plugin", {

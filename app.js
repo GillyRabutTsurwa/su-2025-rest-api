@@ -50,6 +50,7 @@ app.use("/themes", themeRouter);
 app.use("/sites", siteRouter);
 
 mongoose.connect(databaseURL);
+mongoose.set("debug", true);
 db.on("error", (error) => console.error(error));
 db.once("open", () => console.log(`Successfully connected to the database`));
 
