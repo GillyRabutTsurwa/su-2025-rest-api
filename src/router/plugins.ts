@@ -1,13 +1,13 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const router = express.Router();
+import express, { Express, Request, Response, Router, NextFunction } from "express";
+import bodyParser, { BodyParser } from "body-parser";
+import Plugin from "../models/plugins";
+
+const router: Router = express.Router();
 
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
-const Plugin = require("../models/plugins");
-
-router.get("/", async (request, response) => {
+router.get("/", async (request: Request, response: Response) => {
     console.log(request.user);
     const plugins = await Plugin.find({});
     response.render("plugins", {
@@ -16,7 +16,7 @@ router.get("/", async (request, response) => {
     });
 });
 
-router.get("/:name", async (request, response) => {
+router.get("/:name", async (request: Request, response: Response) => {
     try {
         const plugin = await Plugin.findOne({ codebaseName: request.params.name }).exec();
         if (!plugin) throw new Error("Plugin could not be found");
@@ -24,14 +24,14 @@ router.get("/:name", async (request, response) => {
         response.render("plugin", {
             plugin: plugin,
         });
-    } catch (error) {
+    } catch (error: any) {
         response.json({ message: error.message });
     } finally {
         console.log("Data retrieval completed");
     }
 });
 
-router.post("/", async (request, response) => {
+router.post("/", async (request: Request, response: Response) => {
     const plugin = new Plugin({
         name: request.body.name,
         creator: request.body.creator,
@@ -51,4 +51,4 @@ router.post("/", async (request, response) => {
     }
 });
 
-module.exports = router;
+export default router;

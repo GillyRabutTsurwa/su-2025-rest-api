@@ -1,5 +1,12 @@
-const mongoose = require("mongoose");
-const themeSchema = new mongoose.Schema({
+import mongoose, { Schema } from "mongoose";
+
+interface ITheme {
+    name: string;
+    codebaseName: string;
+    sitesUsingTheme: any; //NOTE: for now
+}
+
+const themeSchema: Schema = new mongoose.Schema<ITheme>({
     name: {
         type: String,
         required: true,
@@ -18,5 +25,5 @@ const themeSchema = new mongoose.Schema({
     },
 });
 
-const Theme = mongoose.model("Theme", themeSchema);
-module.exports = Theme;
+const Theme = mongoose.model<ITheme>("Theme", themeSchema);
+export default Theme;

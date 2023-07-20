@@ -1,5 +1,15 @@
-const mongoose = require("mongoose");
-const pluginSchema = new mongoose.Schema(
+import mongoose, { Schema } from "mongoose";
+
+interface IPlugin {
+    name: string;
+    codebaseName: string;
+    creator: string;
+    currentVersion: string;
+    latestVersion: boolean;
+    isNetworkActive: boolean;
+    sitesActivated: any; //For Now
+}
+const pluginSchema: Schema = new mongoose.Schema<IPlugin>(
     {
         name: {
             type: String,
@@ -33,7 +43,7 @@ const pluginSchema = new mongoose.Schema(
         },
         sitesActivated: {
             type: Array,
-            required: function () {
+            required: function (): boolean {
                 return this.isNetworkActive ? false : true;
             },
             default: function () {
@@ -46,5 +56,5 @@ const pluginSchema = new mongoose.Schema(
     }
 );
 
-const Plugin = mongoose.model("Plugin", pluginSchema);
-module.exports = Plugin;
+const Plugin = mongoose.model<IPlugin>("Plugin", pluginSchema);
+export default Plugin;
