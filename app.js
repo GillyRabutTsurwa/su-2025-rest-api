@@ -7,11 +7,6 @@ const session = require("express-session");
 const passport = require("passport");
 const localStrategy = require("passport-local").Strategy;
 
-//NOTE: no longer using these in this file. will delete in next commit
-const Site = require("./models/sites");
-const Plugin = require("./models/plugins");
-const Theme = require("./models/themes");
-
 const User = require("./models/users");
 
 const registerRouter = require("./router/register");
@@ -47,7 +42,7 @@ passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use("/register", registerRouter); //IMPORTANT: include this after passport initialisation logic
+app.use("/register", registerRouter); //IMPORTANT: include this after (not before) passport initialisation logic
 app.use("/login", loginRouter);
 app.use("/plugins", pluginRouter);
 app.use("/api/plugins", pluginAPIRouter);
@@ -92,27 +87,6 @@ function isLoggedIn(req, res, next) {
     res.redirect("/login");
 }
 
-// middleware to not show the login page and redirect to plugin if user is already logged in
-// function ensureAuthenticated(req, res, next) {
-//     if (req.isAuthenticated()) {
-//         return res.redirect("/plugins");
-//     }
-//     return next();
-// }
-
 app.listen(PORT, () => {
     console.log(`Server Running on Port ${PORT}`);
 });
-
-/*
- <% files.forEach((currentFile) => { %>
-     <li><%= currentFile.name %></li>
-     <% if (currentFile.type === "dir") { %>
-        <li>
-            <%= currentFilename.name %>i
-            
-        </li>
-
-     <% } %>
-    <% }) %>
- */
