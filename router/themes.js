@@ -14,7 +14,7 @@ const octokit = new Octokit({
 async function fetchContent(path) {
     const result = await octokit.request("GET /repos/{owner}/{repo}/contents/{path}", {
         owner: "ShenandoahU",
-        repo: "ssmt",
+        repo: "www.su.edu",
         path: path,
     });
 
@@ -48,7 +48,7 @@ router.get("/:name", async (request, response) => {
     try {
         const theme = await Theme.findOne({ codebaseName: request.params.name });
         if (!theme) throw new Error("Theme could not be found");
-        const initialPath = "wp-content/themes/su-ssmt";
+        const initialPath = `wp-content/themes/${request.params.name}`;
         const files = await fetchContent(initialPath);
 
         console.log(theme, files);
