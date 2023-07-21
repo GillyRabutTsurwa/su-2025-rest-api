@@ -13,24 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const passport_1 = __importDefault(require("passport"));
-const users_1 = __importDefault(require("../models/users"));
+const themes_1 = __importDefault(require("../../models/themes"));
 const router = express_1.default.Router();
-router.get("/", (request, response) => {
-    response.render("register");
-});
-router.post("/", (request, response) => __awaiter(void 0, void 0, void 0, function* () {
-    const newUser = new users_1.default({
-        username: request.body.username,
-    });
-    users_1.default.register(newUser, request.body.password, (err, user) => {
-        if (err) {
-            console.error(err);
-            return response.redirect("/register");
-        }
-        passport_1.default.authenticate("local")(request, response, () => {
-            response.redirect("/plugins");
-        });
-    });
+router.get("/", (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    const plugins = yield themes_1.default.find();
+    response.json(plugins);
 }));
 exports.default = router;

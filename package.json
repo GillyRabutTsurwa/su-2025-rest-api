@@ -4,6 +4,7 @@
     "description": "REST API for SU 2025 Project",
     "main": "app.js",
     "scripts": {
+        "copy-assets": "ts-node tools/copyAssets.ts",
         "dev": "NODE_ENV=development nodemon app.js",
         "prod": "NODE_ENV=production nodemon app.js",
         "start": "NODE_ENV=production node app.js"
@@ -43,6 +44,8 @@
         "@types/mongoose": "^5.11.97",
         "@types/passport": "^1.0.12",
         "@types/passport-local": "^1.0.35",
-        "@types/passport-local-mongoose": "^6.1.1"
+        "@types/passport-local-mongoose": "^6.1.1",
+        "@types/shelljs": "^0.8.12",
+        "shelljs": "^0.8.5"
     }
 }

@@ -23,7 +23,7 @@ router.get("/", (request, response) => __awaiter(void 0, void 0, void 0, functio
     const plugins = yield plugins_1.default.find({});
     response.render("plugins", {
         plugins: plugins,
-        user: request.isAuthenticated() ? request.user : null,
+        user: request.isAuthenticated() ? request.user : null, //NOTE: if there's an authenticated user pass user data, else don't pass anything
     });
 }));
 router.get("/:name", (request, response) => __awaiter(void 0, void 0, void 0, function* () {
@@ -31,6 +31,7 @@ router.get("/:name", (request, response) => __awaiter(void 0, void 0, void 0, fu
         const plugin = yield plugins_1.default.findOne({ codebaseName: request.params.name }).exec();
         if (!plugin)
             throw new Error("Plugin could not be found");
+        // response.json(plugin); // will do this in the /api/plugin/:name route
         response.render("plugin", {
             plugin: plugin,
         });
@@ -54,7 +55,7 @@ router.post("/", (request, response) => __awaiter(void 0, void 0, void 0, functi
     console.log(plugin);
     try {
         yield plugins_1.default.create(plugin);
-        response.redirect(`/plugins/${plugin.codebaseName}`);
+        response.redirect(`/plugins/${plugin._id}`);
     }
     catch (error) {
         console.error(error);

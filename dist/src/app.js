@@ -22,15 +22,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -41,15 +32,15 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const express_session_1 = __importDefault(require("express-session"));
 const passport_1 = __importDefault(require("passport"));
-const passport_local_1 = require("passport-local");
 dotenv.config();
-const users_1 = __importDefault(require("./models/users"));
-const register_1 = __importDefault(require("./router/register"));
-const login_1 = __importDefault(require("./router/login"));
+// import User from "./models/users";
+// import registerRouter from "./router/register";
+// import loginRouter from "./router/login";
 const plugins_1 = __importDefault(require("./router/plugins"));
 const plugins_2 = __importDefault(require("./router/api/plugins"));
-const themes_1 = __importDefault(require("./router/themes"));
-const themes_2 = __importDefault(require("./router/api/themes"));
+// import themeRouter from "./router/themes";
+const themes_1 = __importDefault(require("./router/api/themes"));
+// import siteRouter from "./router/sites";
 const app = (0, express_1.default)();
 const PORT = 4000;
 const environment = process.env.NODE_ENV || "development";
@@ -66,58 +57,63 @@ app.use(secretSession);
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use(body_parser_1.default.json());
 app.set("view engine", "ejs");
-app.set("views", __dirname + "/views");
 app.use(express_1.default.static(__dirname + "/public"));
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
-passport_1.default.use(new passport_local_1.Strategy(users_1.default.authenticate()));
-passport_1.default.serializeUser(users_1.default.serializeUser());
-passport_1.default.deserializeUser(users_1.default.deserializeUser());
-app.use("/register", register_1.default);
-app.use("/login", login_1.default);
+// passport.use(new Strategy(User.authenticate()));
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
+// app.use("/register", registerRouter); //IMPORTANT: include this after (not before) passport initialisation logic
+// app.use("/login", loginRouter);
 app.use("/plugins", plugins_1.default);
 app.use("/api/plugins", plugins_2.default);
-app.use("/themes", themes_1.default);
-app.use("/api/themes", themes_2.default);
-(() => __awaiter(void 0, void 0, void 0, function* () {
+app.use("/api/themes", themes_1.default);
+// app.use("/themes", themeRouter);
+// app.use("/sites", siteRouter);
+(() => {
     try {
-        const connection = yield mongoose_1.default.connect(databaseURL);
-        console.log(`Connected to Database ${connection.connection.db.databaseName} @ Host ${connection.connection.host}`);
+        mongoose_1.default.connect(databaseURL);
+        db.once("open", () => console.log(`Successfully connected to the database`));
     }
     catch (error) {
-        console.error(`Erreur: ${error}`);
+        db.on("error", (error) => console.error(error));
     }
     finally {
+        console.log("Connection Attempt Complete. Turning On Debug Mode");
         mongoose_1.default.set("debug", true);
     }
-}))();
+})();
 app.get("/", (request, response) => {
-    response.render("index");
+    response.send("hello world");
 });
-app.get("/logout", (request, response) => {
-    request.logout((err) => {
-        if (err) {
-            console.error(err);
-        }
-        response.redirect("/");
-    });
-});
-app.get("/create-plugin", isLoggedIn, (request, response) => {
-    response.render("create-plugin");
-});
-app.get("/create-theme", isLoggedIn, (request, response) => {
-    response.render("create-theme");
-});
-app.get("/create-site", isLoggedIn, (request, response) => {
-    response.render("create-site");
-});
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        console.log(req.user);
-        return next();
-    }
-    res.redirect("/login");
-}
+// app.get("/", (request: Request, response: Response) => {
+//     response.render("index");
+// });
+// app.get("/logout", (request: Request, response: Response) => {
+//     request.logout((err) => {
+//         if (err) {
+//             console.error(err);
+//         }
+//         response.redirect("/");
+//     });
+// });
+// app.get("/create-plugin", isLoggedIn, (request: Request, response: Response) => {
+//     response.render("create-plugin");
+// });
+// app.get("/create-theme", isLoggedIn, (request: Request, response: Response) => {
+//     response.render("create-theme");
+// });
+// app.get("/create-site", isLoggedIn, (request: Request, response: Response) => {
+//     response.render("create-site");
+// });
+// function isLoggedIn(req: Request, res: Response, next: NextFunction) {
+//     // NOTE: great post that explains source of isAuthenticated() https://stackoverflow.com/questions/65387843/express-request-isauthenticated
+//     if (req.isAuthenticated()) {
+//         console.log(req.user);
+//         return next();
+//     }
+//     res.redirect("/login");
+// }
 app.listen(PORT, () => {
     console.log(`Server Running on Port ${PORT}`);
 });

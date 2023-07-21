@@ -13,6 +13,7 @@ const pluginSchema = new mongoose_1.default.Schema({
         type: String,
         required: false,
         default: function () {
+            // NOTE: initially made this in themes.js and then copied it here
             return this.name.split(" ").join("-").toLowerCase();
         },
     },
@@ -26,10 +27,12 @@ const pluginSchema = new mongoose_1.default.Schema({
     },
     latestVersion: {
         type: Boolean,
+        // required: true,
         required: false,
     },
     isNetworkActive: {
         type: Boolean,
+        // required: true,
         required: false,
     },
     sitesActivated: {

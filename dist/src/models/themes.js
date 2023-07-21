@@ -13,6 +13,7 @@ const themeSchema = new mongoose_1.default.Schema({
         type: String,
         required: false,
         default: function () {
+            // NOTE: taking the name value above and formatting it. Gilbert Rabut Tsurwa becomes "gilbert-rabut-tsurwa"
             return this.name.split(" ").join("-").toLowerCase();
         },
     },

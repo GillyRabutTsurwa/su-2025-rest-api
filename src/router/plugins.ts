@@ -45,7 +45,7 @@ router.post("/", async (request: Request, response: Response) => {
 
     try {
         await Plugin.create(plugin);
-        response.redirect(`/plugins/${plugin._id}`);
+        response.redirect(`/plugins/${plugin.codebaseName}`);
     } catch (error) {
         console.error(error);
     }

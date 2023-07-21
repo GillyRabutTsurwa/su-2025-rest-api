@@ -1,25 +1,22 @@
 "use strict";
-// import mongoose, { Schema } from "mongoose";
-// import passportLocalMongoose from "passport-local-mongoose";
-// interface IUser {
-//     username: string;
-//     password: string;
-// }
-// const UserSchema: Schema = new mongoose.Schema<IUser>(
-//     {
-//         username: {
-//             type: String,
-//             required: true,
-//         },
-//         password: {
-//             type: String,
-//             required: false, //NOTE: passport-local-mongoose takes care of this. do not define it when making a new user
-//         },
-//     },
-//     {
-//         collection: "admins",
-//     }
-// );
-// UserSchema.plugin(passportLocalMongoose);
-// const User = mongoose.model<IUser>("User", UserSchema);
-// module.exports = User;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose_1 = __importDefault(require("mongoose"));
+const passport_local_mongoose_1 = __importDefault(require("passport-local-mongoose"));
+const UserSchema = new mongoose_1.default.Schema({
+    username: {
+        type: String,
+        required: true,
+    },
+    password: {
+        type: String,
+        required: false,
+    },
+}, {
+    collection: "admins",
+});
+UserSchema.plugin(passport_local_mongoose_1.default);
+const User = mongoose_1.default.model("User", UserSchema);
+exports.default = User;
