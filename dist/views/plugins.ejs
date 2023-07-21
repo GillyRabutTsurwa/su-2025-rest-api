@@ -1,0 +1,15 @@
+<%- include ("./partials/header") %>
+<div style="margin-left: auto;">
+    <% if (user) { %>
+        User: <h4> <%= user.username %> </h4>
+        <a href="/logout">Logout</a>
+        <a href="/create-plugin">Add Plugin</a>
+    <% } %>
+</div>
+    <div class="plugins-container">
+        <% plugins.forEach((currentPlugin)=> { %>
+            <a href="/plugins/<%= currentPlugin.codebaseName %>" class="joke">
+                    <%= currentPlugin.name %>
+            </a>
+        <% }) %>
+    </div>

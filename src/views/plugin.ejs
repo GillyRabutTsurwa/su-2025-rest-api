@@ -1,0 +1,11 @@
+<%- include ("./partials/header") %>
+
+<div class="plugin-container">
+    <div class="plugin">
+        <h3><%= plugin.name %></h3>
+        <p>Created By: <span><%= plugin.creator %></span></p>
+        <p>Current Version: <span><%= plugin.currentVersion %></span></p>
+        <p>Latest Version: <span><%= plugin.latestVersion ? "Yes": "No" %></span></p>
+        <p>Network Active: <span><%= plugin.isNetworkActive ? "Yes": "No" %></span></p>
+    </div>
+</div>

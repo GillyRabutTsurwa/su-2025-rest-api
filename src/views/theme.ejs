@@ -1,0 +1,43 @@
+<%- include ("./partials/header") %>
+
+<div class="plugin-container">
+    <div class="plugin fulltest">
+        <div>
+            <h3><%= theme.name %></h3>
+            <p>Created By: <span><%= theme.codebaseName %></span></p>
+        </div>
+    </div>
+    <ul class="tree">
+        <% files.forEach(function(asset) { %>
+          <% if (asset.type === 'file') { %>
+            <li class="file">
+                <a href="<%= asset.html_url %>"><%= asset.name %></a>
+            </li>
+          <% } else if (asset.type === 'dir') { %>
+            <li class="dir">
+              <a href="<%= asset.html_url %>"><%= asset.name %></a>
+              <ul>
+                <% asset.files.forEach(function(subAsset) { %>
+                  <% if (subAsset.type === 'file') { %>
+                    <li class="file">
+                        <a href="<%= subAsset.html_url %>"><%= subAsset.name %></a>
+                    </li>
+                  <% } else if (subAsset.type === 'dir') { %>
+                    <li class="dir">
+                        <a href="<%= subAsset.html_url %>"><%= subAsset.name %></a>
+                      <ul>
+                        <% subAsset.files.forEach(function(subSubAsset) { %>
+                          <li class="file">
+                            <a href="<%= subSubAsset.html_url %>"><%= subSubAsset.name %></a>
+                          </li>
+                        <% }) %>
+                      </ul>
+                    </li>
+                  <% } %>
+                <% }) %>
+              </ul>
+            </li>
+          <% } %>
+        <% }) %>
+    </ul>
+</div>

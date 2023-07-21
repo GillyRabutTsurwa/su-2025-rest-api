@@ -1,0 +1,51 @@
+{
+    "name": "su-2025-rest-api",
+    "version": "1.0.0",
+    "description": "REST API for SU 2025 Project",
+    "main": "app.js",
+    "scripts": {
+        "copy-assets": "ts-node tools/copyAssets.ts",
+        "dev": "NODE_ENV=development nodemon app.js",
+        "prod": "NODE_ENV=production nodemon app.js",
+        "start": "NODE_ENV=production node app.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "coming-soon"
+    },
+    "keywords": [
+        "rest-api",
+        "express",
+        "mongodb",
+        "node"
+    ],
+    "author": "Gilbert Rabut Tsurwa",
+    "license": "ISC",
+    "dependencies": {
+        "body-parser": "^1.20.2",
+        "dotenv": "^16.3.1",
+        "ejs": "^3.1.9",
+        "express": "^4.18.2",
+        "express-session": "^1.17.3",
+        "mongoose": "^7.3.0",
+        "octokit": "^3.0.0",
+        "passport": "^0.6.0",
+        "passport-local": "^1.0.0",
+        "passport-local-mongoose": "^8.0.0"
+    },
+    "engines": {
+        "node": ">=14.20.1"
+    },
+    "devDependencies": {
+        "@octokit/types": "^11.1.0",
+        "@types/body-parser": "^1.19.2",
+        "@types/express": "^4.17.17",
+        "@types/express-session": "^1.17.7",
+        "@types/mongoose": "^5.11.97",
+        "@types/passport": "^1.0.12",
+        "@types/passport-local": "^1.0.35",
+        "@types/passport-local-mongoose": "^6.1.1",
+        "@types/shelljs": "^0.8.12",
+        "shelljs": "^0.8.5"
+    }
+}
