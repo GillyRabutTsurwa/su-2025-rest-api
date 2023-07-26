@@ -35,6 +35,7 @@ router.post("/", async (request: Request, response: Response) => {
     const plugin = new Plugin({
         name: request.body.name,
         creator: request.body.creator,
+        description: request.body.description,
         currentVersion: request.body.currentVersion,
         latestVersion: request.body.pluginVersion,
         isNetworkActive: request.body.pluginNetwork,

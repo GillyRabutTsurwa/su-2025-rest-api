@@ -20,6 +20,10 @@ const pluginSchema = new mongoose_1.default.Schema({
         type: String,
         required: true,
     },
+    description: {
+        type: String,
+        required: false,
+    },
     currentVersion: {
         type: String,
         required: true,

@@ -4,6 +4,7 @@ interface IPlugin {
     name: string;
     codebaseName: string;
     creator: string;
+    description: string;
     currentVersion: string;
     latestVersion: boolean;
     isNetworkActive: boolean;
@@ -26,6 +27,10 @@ const pluginSchema: Schema = new mongoose.Schema<IPlugin>(
         creator: {
             type: String,
             required: true,
+        },
+        description: {
+            type: String,
+            required: false,
         },
         currentVersion: {
             type: String,

@@ -46,6 +46,7 @@ router.post("/", (request, response) => __awaiter(void 0, void 0, void 0, functi
     const plugin = new plugins_1.default({
         name: request.body.name,
         creator: request.body.creator,
+        description: request.body.description,
         currentVersion: request.body.currentVersion,
         latestVersion: request.body.pluginVersion,
         isNetworkActive: request.body.pluginNetwork,

@@ -67,6 +67,7 @@ router.post("/", async (request, response) => {
     const theme = new Theme({
         name: request.body.name,
         codebaseName: request.body.codebaseName,
+        description: request.body.description,
         sitesUsingTheme: request.body.sitesUsingTheme,
     });
 

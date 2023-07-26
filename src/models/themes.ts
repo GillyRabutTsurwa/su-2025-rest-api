@@ -3,6 +3,7 @@ import mongoose, { Schema } from "mongoose";
 interface ITheme {
     name: string;
     codebaseName: string;
+    description: string;
     sitesUsingTheme: any; //NOTE: for now
 }
 
@@ -10,6 +11,10 @@ const themeSchema: Schema = new mongoose.Schema<ITheme>({
     name: {
         type: String,
         required: true,
+    },
+    description: {
+        type: String,
+        required: false,
     },
     codebaseName: {
         type: String,

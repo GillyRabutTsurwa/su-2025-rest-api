@@ -9,6 +9,10 @@ const themeSchema = new mongoose_1.default.Schema({
         type: String,
         required: true,
     },
+    description: {
+        type: String,
+        required: false,
+    },
     codebaseName: {
         type: String,
         required: false,

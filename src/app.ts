@@ -37,6 +37,8 @@ app.use(bodyParser.json());
 app.set("view engine", "ejs");
 //NEWIMPORTANTNOTE: after moving things around, i had to explicity set the root path for the views directory
 // this way, the app knows where to look for the ejs templates
+// there was a video on YouTube which led me to this discovery.
+// will put the link later if i rememeber
 app.set("views", __dirname + "/views");
 app.use(express.static(__dirname + "/public"));
 app.use(passport.initialize());
