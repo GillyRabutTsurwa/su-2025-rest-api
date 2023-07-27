@@ -73,9 +73,12 @@ router.post("/", (request, response) => __awaiter(void 0, void 0, void 0, functi
         description: request.body.description,
         sitesUsingTheme: request.body.sitesUsingTheme,
     });
-    const newTheme = yield themes_1.default.create(theme);
-    console.log("New Theme Added");
-    console.log(theme);
-    response.json(newTheme);
+    try {
+        yield themes_1.default.create(theme);
+        response.redirect(`/themes/${theme.codebaseName}`);
+    }
+    catch (error) {
+        console.error(error);
+    }
 }));
 exports.default = router;

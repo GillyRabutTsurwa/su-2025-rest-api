@@ -71,10 +71,12 @@ router.post("/", async (request, response) => {
         sitesUsingTheme: request.body.sitesUsingTheme,
     });
 
-    const newTheme = await Theme.create(theme);
-    console.log("New Theme Added");
-    console.log(theme);
-    response.json(newTheme);
+    try {
+        await Theme.create(theme);
+        response.redirect(`/themes/${theme.codebaseName}`);
+    } catch (error) {
+        console.error(error);
+    }
 });
 
 export default router;
