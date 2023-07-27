@@ -3,6 +3,8 @@ import express, { Express, Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
 import bodyParser, { BodyParser } from "body-parser";
 import session, { SessionData, SessionOptions } from "express-session";
+import cookieSession from "cookie-session";
+
 import passport from "passport";
 import { Strategy } from "passport-local";
 
@@ -24,14 +26,21 @@ const DATABASE_URL: string = environment === "development" ? process.env.DEV_DAT
 
 const databaseURL: string = DATABASE_URL;
 const db = mongoose.connection;
+
 const secretSession = session({
     secret: "susecret",
     resave: false,
     saveUninitialized: false,
 });
 
+const secretCookieSession = cookieSession({
+    name: "susecret",
+    keys: ["secretsu2025"],
+    maxAge: 24 * 60 * 60 * 1000,
+});
+
 app.use(express.json());
-app.use(secretSession);
+app.use(environment === "production" ? secretCookieSession : secretSession);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.set("view engine", "ejs");

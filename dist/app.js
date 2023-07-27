@@ -40,6 +40,7 @@ const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const express_session_1 = __importDefault(require("express-session"));
+const cookie_session_1 = __importDefault(require("cookie-session"));
 const passport_1 = __importDefault(require("passport"));
 const passport_local_1 = require("passport-local");
 dotenv.config();
@@ -61,8 +62,13 @@ const secretSession = (0, express_session_1.default)({
     resave: false,
     saveUninitialized: false,
 });
+const secretCookieSession = (0, cookie_session_1.default)({
+    name: "susecret",
+    keys: ["secretsu2025"],
+    maxAge: 24 * 60 * 60 * 1000,
+});
 app.use(express_1.default.json());
-app.use(secretSession);
+app.use(environment === "production" ? secretCookieSession : secretSession);
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use(body_parser_1.default.json());
 app.set("view engine", "ejs");
