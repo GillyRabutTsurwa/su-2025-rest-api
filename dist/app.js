@@ -40,6 +40,7 @@ const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const express_session_1 = __importDefault(require("express-session"));
+const connect_mongo_1 = __importDefault(require("connect-mongo"));
 const passport_1 = __importDefault(require("passport"));
 const passport_local_1 = require("passport-local");
 dotenv.config();
@@ -60,7 +61,22 @@ const secretSession = (0, express_session_1.default)({
     secret: "susecret",
     resave: false,
     saveUninitialized: false,
+    store: connect_mongo_1.default.create({
+        mongoUrl: DATABASE_URL,
+    }),
 });
+(() => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const connection = yield mongoose_1.default.connect(databaseURL);
+        console.log(`Connected to Database ${connection.connection.db.databaseName} @ Host ${connection.connection.host}`);
+    }
+    catch (error) {
+        console.error(`Erreur: ${error}`);
+    }
+    finally {
+        mongoose_1.default.set("debug", true);
+    }
+}))();
 app.use(express_1.default.json());
 app.use(secretSession);
 app.use(body_parser_1.default.urlencoded({ extended: true }));
@@ -79,18 +95,6 @@ app.use("/plugins", plugins_1.default);
 app.use("/api/plugins", plugins_2.default);
 app.use("/themes", themes_1.default);
 app.use("/api/themes", themes_2.default);
-(() => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const connection = yield mongoose_1.default.connect(databaseURL);
-        console.log(`Connected to Database ${connection.connection.db.databaseName} @ Host ${connection.connection.host}`);
-    }
-    catch (error) {
-        console.error(`Erreur: ${error}`);
-    }
-    finally {
-        mongoose_1.default.set("debug", true);
-    }
-}))();
 app.get("/", (request, response) => {
     response.render("index");
 });

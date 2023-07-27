@@ -3,7 +3,7 @@ import express, { Express, Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
 import bodyParser, { BodyParser } from "body-parser";
 import session, { SessionData, SessionOptions } from "express-session";
-
+import MongoStore from "connect-mongo";
 import passport from "passport";
 import { Strategy } from "passport-local";
 
@@ -30,7 +30,21 @@ const secretSession = session({
     secret: "susecret",
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+        mongoUrl: DATABASE_URL,
+    }),
 });
+
+(async () => {
+    try {
+        const connection = await mongoose.connect(databaseURL);
+        console.log(`Connected to Database ${connection.connection.db.databaseName} @ Host ${connection.connection.host}`);
+    } catch (error) {
+        console.error(`Erreur: ${error}`);
+    } finally {
+        mongoose.set("debug", true);
+    }
+})();
 
 app.use(express.json());
 app.use(secretSession);
@@ -60,17 +74,6 @@ app.use("/api/plugins", pluginAPIRouter);
 app.use("/themes", themeRouter);
 app.use("/api/themes", themeAPIRouter);
 // app.use("/sites", siteRouter);
-
-(async () => {
-    try {
-        const connection = await mongoose.connect(databaseURL);
-        console.log(`Connected to Database ${connection.connection.db.databaseName} @ Host ${connection.connection.host}`);
-    } catch (error) {
-        console.error(`Erreur: ${error}`);
-    } finally {
-        mongoose.set("debug", true);
-    }
-})();
 
 app.get("/", (request: Request, response: Response) => {
     response.render("index");
