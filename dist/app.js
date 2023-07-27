@@ -67,7 +67,9 @@ const secretSession = (0, express_session_1.default)({
 });
 (() => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const connection = yield mongoose_1.default.connect(databaseURL);
+        const connection = yield mongoose_1.default.connect(databaseURL, {
+            dbName: "su2025",
+        });
         console.log(`Connected to Database ${connection.connection.db.databaseName} @ Host ${connection.connection.host}`);
     }
     catch (error) {

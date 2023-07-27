@@ -37,7 +37,9 @@ const secretSession = session({
 
 (async () => {
     try {
-        const connection = await mongoose.connect(databaseURL);
+        const connection = await mongoose.connect(databaseURL, {
+            dbName: "su2025",
+        });
         console.log(`Connected to Database ${connection.connection.db.databaseName} @ Host ${connection.connection.host}`);
     } catch (error) {
         console.error(`Erreur: ${error}`);
